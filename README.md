@@ -12,7 +12,7 @@ During the registration process, if there are three requests for a one-time code
 
 * First of all clone the project:
 ```console
-username@hostname:~$ git clone https://github.com/EngRobot33/Auchentication.git
+username@hostname:~$ git clone https://github.com/HaamedKhosravii/Auchentication.git
 ```
 * Enter the project directory:
 ```console
@@ -64,7 +64,7 @@ username@hostname:~/Auchentication$ python3 manage.py test
 
 * First of all clone the project:
 ```console
-username@hostname:~$ git clone https://github.com/EngRobot33/Auchentication.git
+username@hostname:~$ git clone https://github.com/HaamedKhosravii/Auchentication.git
 ```
 * Enter the project directory:
 ```console
