@@ -9,13 +9,13 @@ services:
       - ./.env
   web:
     build: .
+    image: auchentication-web:latest
     command: sh -c "python manage.py migrate &&
       yes | python manage.py collectstatic --no-input &&
       gunicorn config.wsgi:application --workers=3 --bind 0.0.0.0:8000"
     container_name: auchentication-web
-
     volumes:
-      - .:/app
+      # - .:/app
       - static_volume:/app/static
     env_file:
       - ./.env
@@ -27,6 +27,7 @@ services:
 
   nginx:
     build: ./nginx
+    image: auchentication-nginx:latest
     container_name: auchentication-nginx
     volumes:
       - static_volume:/app/static
