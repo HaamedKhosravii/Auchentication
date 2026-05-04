@@ -60,5 +60,5 @@ jobs:
             echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
             echo "CACHES_REDIS_HOST=${{ secrets.CACHES_REDIS_HOST }}" >> .env
 
-            docker compose up -d --build
+            docker-compose up -d --build
             docker image prune -f
