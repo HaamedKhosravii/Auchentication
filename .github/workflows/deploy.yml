@@ -48,8 +48,6 @@ jobs:
 
       - name: Save and Compress Images
         run: |
-          # 1. Get the list of all image names from the docker-compose file
-          # 2. Save them all into one compressed tarball
           # IMAGES=$(docker compose config | grep 'image:' | awk '{print $2}' | sort | uniq)
           echo "Saving images: $IMAGES"
           # docker save $IMAGES | gzip > images.tar.gz
@@ -68,7 +66,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "images.tar.gz,docker-compose.yml,.env"
+          source: "images.tar.gz,docker-compose.prod.yml,.env"
           target: ${{ secrets.APP_DIR }}
 
       - name: Load Images and Deploy
@@ -80,13 +78,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.APP_DIR }}
-            
-            # Load the images into the server's local docker registry
             gunzip -c images.tar.gz | docker load
-            
-            # Start the services
+            mv docker-compose.prod.yml docker-compose.yml
             docker compose up -d
-            
-            # Cleanup
             rm images.tar.gz
             docker image prune -f
