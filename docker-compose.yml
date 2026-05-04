@@ -24,6 +24,7 @@ services:
     depends_on:
       - redis
     restart: "on-failure"
+    pull_policy: never
 
   nginx:
     build: ./nginx
@@ -36,6 +37,7 @@ services:
     depends_on:
       - web
     restart: "on-failure"
+    pull_policy: never
 
 volumes:
   static_volume:
