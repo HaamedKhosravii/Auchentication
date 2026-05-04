@@ -21,6 +21,7 @@ jobs:
           echo "DEBUG=${{ secrets.DEBUG }}" >> .env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
+          echo "REDIS_URL=${{ secrets.CACHES_REDIS_HOST }}" >> .env
 
       - name: Build and run tests
         run: |
@@ -56,6 +57,7 @@ jobs:
             echo "DEBUG=${{ secrets.DEBUG }}" >> .env
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
             echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
+            echo "REDIS_URL=${{ secrets.CACHES_REDIS_HOST }}" >> .env
 
             docker compose up -d --build
             docker image prune -f
