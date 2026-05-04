@@ -84,9 +84,10 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/git
+            docker-compose down || true
             tar xzvf pipeline.tar.gz
             docker load < images.tar
             mv docker-compose.prod.yml docker-compose.yml
             docker compose up -d
-            rm images.tar.gz
+            rm images.tar
             docker image prune -f
