@@ -53,7 +53,7 @@ jobs:
           docker image ls
           # docker save $IMAGES | gzip > images.tar.gz
           # docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine | gzip > images.tar.gz
-          docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine -o images.tar
+          docker save -o images.tar auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine
           gzip images.tar
 
 
