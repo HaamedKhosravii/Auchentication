@@ -54,8 +54,6 @@ jobs:
           # docker save $IMAGES | gzip > images.tar.gz
           # docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine | gzip > images.tar.gz
           docker save -o images.tar auchentication-web:latest auchentication-nginx:latest
-          gzip images.tar
-
 
       - name: Create .env file
         run: |
@@ -63,6 +61,10 @@ jobs:
           echo "DEBUG=${{ secrets.DEBUG }}" >> .env
           echo "CACHES_REDIS_HOST=${{ secrets.CACHES_REDIS_HOST }}" >> .env
 
+      - name: Compress Files
+        run: |
+          tar czvf pipeline.tar.gz images.tar docker-compose.prod.yaml .env
+      
       - name: Copy Files to Server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -70,8 +72,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "images.tar.gz,docker-compose.prod.yml,.env"
-          target: ${{ secrets.APP_DIR }}
+          source: "pipeline.tar.gz"
+          target: "/home/git"
 
       - name: Load Images and Deploy
         uses: appleboy/ssh-action@v1.0.3
@@ -81,8 +83,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ${{ secrets.APP_DIR }}
-            gunzip -c images.tar.gz | docker load
+            cd /home/git
+            tar xzvf pipeline.tar.gz
+            docker load < images.tar
             mv docker-compose.prod.yml docker-compose.yml
             docker compose up -d
             rm images.tar.gz
