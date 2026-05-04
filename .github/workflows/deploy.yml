@@ -50,9 +50,10 @@ jobs:
         run: |
           # 1. Get the list of all image names from the docker-compose file
           # 2. Save them all into one compressed tarball
-          IMAGES=$(docker compose config | grep 'image:' | awk '{print $2}' | sort | uniq)
+          # IMAGES=$(docker compose config | grep 'image:' | awk '{print $2}' | sort | uniq)
           echo "Saving images: $IMAGES"
-          docker save $IMAGES | gzip > images.tar.gz
+          # docker save $IMAGES | gzip > images.tar.gz
+          docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine | gzip > images.tar.gz
 
       - name: Create .env file
         run: |
