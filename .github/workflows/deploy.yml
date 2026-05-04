@@ -50,8 +50,12 @@ jobs:
         run: |
           # IMAGES=$(docker compose config | grep 'image:' | awk '{print $2}' | sort | uniq)
           echo "Saving images: $IMAGES"
+          docker image ls
           # docker save $IMAGES | gzip > images.tar.gz
-          docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine | gzip > images.tar.gz
+          # docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine | gzip > images.tar.gz
+          docker save auchentication-web:latest auchentication-nginx:latest redis:7.0.2-alpine -o images.tar
+          gzip images.tar
+
 
       - name: Create .env file
         run: |
