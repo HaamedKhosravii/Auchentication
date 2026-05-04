@@ -63,7 +63,7 @@ jobs:
 
       - name: Compress Files
         run: |
-          tar czvf pipeline.tar.gz images.tar docker-compose.prod.yaml .env
+          tar czvf pipeline.tar.gz images.tar docker-compose.prod.yml .env
       
       - name: Copy Files to Server
         uses: appleboy/scp-action@v0.1.7
